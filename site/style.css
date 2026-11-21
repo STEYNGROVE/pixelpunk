@@ -15,3 +15,41 @@
   .actions, .total div { flex-wrap: wrap; gap: 12px; }
   .sticker { top: 55%; }
 }
+
+#quote-help { margin: 0; color: var(--muted); line-height: 1.5; }
+.quote .outline, .portfolio .outline { justify-self: start; display: inline-block; }
+.portfolio { grid-template-columns: minmax(0, 480px); }
+.mobile-actions { display: none; }
+
+@media (max-width: 800px) {
+  body { padding-bottom: calc(70px + env(safe-area-inset-bottom)); }
+  .mobile-actions {
+    position: fixed;
+    z-index: 3;
+    inset: auto 0 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 8px 5% calc(8px + env(safe-area-inset-bottom));
+    background: var(--dark);
+    border-top: 2px solid var(--pink);
+  }
+  .mobile-actions a {
+    display: grid;
+    place-items: center;
+    min-height: 44px;
+    padding: 6px;
+    text-align: center;
+    font-weight: 700;
+    border: 1px solid var(--pink);
+    border-radius: 7px;
+  }
+  .mobile-actions a:last-child { background: var(--lime); color: var(--dark); }
+  .quote label:has(input) { display: flex; align-items: center; gap: 8px; min-height: 44px; }
+  .quote input { flex-shrink: 0; }
+  .quote { gap: 12px; }
+}
+
+@media (min-width: 801px) and (max-width: 950px) {
+  header nav { gap: 12px; }
+}

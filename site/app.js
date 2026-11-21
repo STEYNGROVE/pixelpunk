@@ -14,6 +14,8 @@ const packageSelect = document.querySelector('#package');
 const setup = document.querySelector('#setup');
 const monthly = document.querySelector('#monthly');
 const form = document.querySelector('#lead');
+const whatsappQuote = document.querySelector('#whatsapp-quote');
+const whatsappContact = whatsappQuote.href;
 const money = amount => 'R' + amount.toLocaleString('en-ZA');
 
 function updateQuote() {
@@ -22,16 +24,35 @@ function updateQuote() {
   const total = selectedExtras.reduce((sum, extra) => sum + extra.price, selectedPackage.setup);
   setup.textContent = money(total);
   monthly.textContent = money(selectedPackage.monthly);
-  return selectedExtras;
+  const quote = [
+    'Package: ' + packageSelect.selectedOptions[0].textContent,
+    'Extras: ' + (selectedExtras.map(extra => extra.label + ' (+' + money(extra.price) + ')').join(', ') || 'None'),
+    'Estimated once-off setup: ' + setup.textContent,
+    'Estimated monthly: ' + monthly.textContent,
+  ];
+  const message = [
+    'Hi PIXELPUNK! I’d like a written quote for this project.',
+    '',
+    ...quote,
+  ].join('\n');
+  whatsappQuote.href = whatsappContact + '?text=' + encodeURIComponent(message);
+  return quote;
 }
 
 document.querySelector('#quote').addEventListener('change', updateQuote);
 window.addEventListener('pageshow', updateQuote);
 updateQuote();
 
+document.querySelectorAll('[data-package]').forEach(link => {
+  link.addEventListener('click', () => {
+    packageSelect.value = link.dataset.package;
+    updateQuote();
+  });
+});
+
 form.addEventListener('submit', event => {
   event.preventDefault();
-  const selectedExtras = updateQuote().map(extra => extra.label + ' (+' + money(extra.price) + ')');
+  const quote = updateQuote();
   const fields = new FormData(form);
   const brief = [
     'PIXELPUNK project brief',
@@ -39,10 +60,7 @@ form.addEventListener('submit', event => {
     'Name: ' + fields.get('name'),
     'Email: ' + fields.get('email'),
     'Business: ' + fields.get('business'),
-    'Package: ' + packageSelect.selectedOptions[0].textContent,
-    'Extras: ' + (selectedExtras.join(', ') || 'None'),
-    'Estimated setup: ' + setup.textContent,
-    'Estimated monthly: ' + monthly.textContent,
+    ...quote,
     '',
     'Project details',
     fields.get('details'),
