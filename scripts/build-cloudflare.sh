@@ -3,7 +3,7 @@ set -eu
 cd "$(dirname "$0")/.."
 sh scripts/build.sh
 mkdir -p cloudflare-dist
-cp dist/index.html dist/style.css dist/app.js cloudflare/_headers cloudflare/404.html cloudflare-dist/
+cp dist/index.html dist/style.css dist/app.js cloudflare/_headers cloudflare/404.html cloudflare/favicon.ico cloudflare-dist/
 
 python3 - <<'PY'
 from os import environ
