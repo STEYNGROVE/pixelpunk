@@ -5,7 +5,7 @@ from urllib.parse import unquote, urljoin, urlsplit
 
 DIST = Path("dist")
 BASE = "https://steyngrove.github.io/pixelpunk/"
-assert {path.name for path in DIST.iterdir()} == {"index.html", "style.css", "app.js"}
+assert {path.name for path in DIST.iterdir()} == {"index.html", "style.css", "app.js", "pixelpunk-share.jpg"}
 
 
 class Page(HTMLParser):
